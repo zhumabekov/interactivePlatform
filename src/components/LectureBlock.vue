@@ -4,7 +4,7 @@
       <div class="lecture__content">
         <div class="lecture__title">
           <router-link tag="span" to="/lection" class="btn_back"><font-awesome-icon class="icon" icon="chevron-left"/>Назад</router-link>
-          <span class="lec_title">{{lectionData.lesson.name}}</span>
+          <span class="lec_title">{{lectionData.lesson.number}} {{lectionData.lesson.name}}</span>
         </div>
         <iframe :src="lectionData.lesson.googlePresentationUrl"
         frameborder="0" allowfullscreen="true" mozallowfullscreen="true"
@@ -117,7 +117,6 @@ export default {
   .lecture__test{
     display: grid;
     grid-row-gap: 1em;
-    overflow: auto;
   }
   .lecture__test_btn{
     align-self: start;

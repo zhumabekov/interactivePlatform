@@ -113,6 +113,18 @@ export default {
     if (!localStorage.getItem('userAttemptId')){
       this.$router.push('/')
     }
+    let self = this;
+    window.addEventListener('keyup', function(event) {
+      if (event.keyCode === 32) { 
+        self.toogleQuestionAnswer();
+      }
+      if (event.keyCode === 37) { 
+        self.prevCart();
+      }
+      if (event.keyCode === 39) { 
+        self.nextCart();
+      }
+    });
   }
 }
 </script>

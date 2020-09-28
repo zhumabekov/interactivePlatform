@@ -3,17 +3,26 @@
     <div v-if="loaded">
      <div class="intro">
       <div class="video">
-        <video class="video-media" src="../assets/videobg.mp4" muted autoplay loop></video>
+        <video class="video-media" src="http://176.119.159.61/frontassets/videobg1.5.mp4" muted autoplay loop></video>
       </div>
      </div>
      <div class="wrapper">
        <div class="title">
          <span>Цель курса:</span>
-         {{lectionData.lesson.name}}
+         изменить отношение медицинских работников к людям, живущим с ВИЧ (ЛЖВ), и представителям групп высокого риска, для предоставления качественных услуг и снижения стигматизации и дискриминации в учреждениях здравоохранения, связанной с ВИЧ
        </div>
        <div class="content">
          <span>Задачи курса:</span>
-         {{lectionData.lesson.description}}
+         <ol>
+          <li>Предоставить участникам информацию об эпидемиологии, этиологию, патогенез, клиника ВИЧ-инфекции и методах профилактики инфицирования.</li>
+          <li>Помочь участникам пересмотреть собственные мысли, убеждения, отношения и поведение в отношении ЛЖВ и представителей ГНР, и их влияние на профессиональное поведение.</li>
+          <li>Рассмотреть права ЛЖВ / представителей ГНР и медицинских работников и их обязанности, связанные с безопасностью оказания медицинских услуг инфицированным пациентам.</li>
+          <li>Ознакомить участников с основными принципами и процедурой проведения добровольного консультирования и тестирования на ВИЧ пациента.</li>
+          <li>Определить понятие «стигма», «стигматизация», «дискриминация» и «толерантное отношение».</li>
+          <li>Выяснить и проанализировать причины возникновения таких явлений, как стигматизация и дискриминация, и осознать последствия стигматизации ЛЖВ и представителей ГНР.</li>
+          <li>Обсудить с участниками соблюдения универсальных методов предосторожности во избежание инфицирования ВИЧ на рабочем месте.</li>
+          <li>Ознакомить участников тренинга с алгоритмом действий и правилам назначения постконтактной профилактики.</li>
+         </ol>
        </div>
        <button class="lecture__test_btn" @click.prevent="familiarized()">{{lectionData.passed == lectionData.total ? "Назад" : "Ознакомиться"}}</button>
      </div>
@@ -128,7 +137,7 @@ export default {
     justify-self: start;
     background-color: #00a189;
     padding: .7em 3.5em;
-    margin-top: 2em;
+    margin-top: 1.2em;
     border-radius: 3px;
     color: #fff;
     border: 2px solid #00a189;
@@ -141,7 +150,7 @@ export default {
     cursor: pointer;
   }
   ol{
-    margin-left: 1em;
+    margin-left: 1.2em;
   }
   @media screen and (min-width:2000px){
     .video-media{
@@ -151,6 +160,9 @@ export default {
   @media screen and (max-width:1000px){
     .video-media{
       top: 0;
+    }
+    .intro{
+      height: 30vh;
     }
   }
 </style>
