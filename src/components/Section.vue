@@ -7,9 +7,6 @@
           <button class="btn__begin" @click.prevent="showPopup('login')">Начать обучение</button>
           <button class="btn__continue" @click.prevent="showPopup('continue')">Продолжить обучение</button>
         </div>
-        
-        <!-- <router-link tag="div" class="inform_block__btn" to="/lection"><span>Пройти обучение</span></router-link> -->
-        <!-- <div class="inform_block__link">Результаты</div> -->
       </article>
       <article class="img_block"><img src="../assets/fon.png" width="95%"></article>
       <Popup v-show="showLogin" @closePopup="closePopup" @login="regIn" popapTitle="Войти">

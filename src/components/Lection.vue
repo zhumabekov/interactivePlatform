@@ -47,7 +47,8 @@ export default {
   section{
     width: 100%;
     height: calc(100vh - 100px);
-    background-color: #f8f8f8;
+    background: url("../assets/bgSection.jpg") center no-repeat;
+    background-size: cover;
     /* display: grid; */
     overflow: auto;
   }
@@ -71,6 +72,7 @@ export default {
     cursor: pointer;
     display: grid;
     box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    background-color: rgba(248, 248, 248, .8);
     border-radius: 5px;
     grid-column-gap: 1em;
     text-decoration: none;
