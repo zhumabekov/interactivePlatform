@@ -23,5 +23,7 @@ export default {
   }
   #app{
     display: grid;
+    /* background: url("./assets/25101.jpg") center no-repeat;
+    background-size: cover; */
   }
 </style>

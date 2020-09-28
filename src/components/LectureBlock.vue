@@ -6,14 +6,15 @@
           <router-link tag="span" to="/lection" class="btn_back"><font-awesome-icon class="icon" icon="chevron-left"/>Назад</router-link>
           <span class="lec_title">{{lectionData.lesson.name}}</span>
         </div>
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQpYgI1SyKZEpgulreFxV8VbRU4Mi3NdC8lHSkDH7qtJgepzzQApSKrvDaXyOF8DA/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-        <!-- <iframe :src="`https://docs.google.com/viewer?url=http://176.119.159.61/api/FileItems/DownloadFile?FileItemId=${lectionData.lesson.presentation.id}&embedded=true`"></iframe> -->
+        <iframe :src="lectionData.lesson.googlePresentationUrl"
+        frameborder="0" allowfullscreen="true" mozallowfullscreen="true"
+        webkitallowfullscreen="true"></iframe>
       </div>
       <div class="lecture__test">
        <button class="lecture__test_btn" @click.prevent="startTest()" v-show="(!isActive) && (lectionData.passed !== lectionData.total)">Начать тест</button>
        <Test v-if="(isActive) && (lectionData.passed !== lectionData.total)"></Test>
        <div v-if="lectionData.passed === lectionData.total" class="callback">
-       <img src="https://img.icons8.com/bubbles/100/000000/certificate.png"/>  Тест сдан!
+        <img src="../assets/certificate.png"/>  Тест сдан!
        </div>
        <router-link tag="button" to="/lection" class="lecture_close_btn" v-show="isActive">Завершить модуль</router-link>
       </div>
@@ -53,6 +54,9 @@ export default {
           this.loaded = true;
         }
       })
+    if (!localStorage.getItem('userAttemptId')){
+      this.$router.push('/')
+    }
   }
 }
 </script>
@@ -113,6 +117,7 @@ export default {
   .lecture__test{
     display: grid;
     grid-row-gap: 1em;
+    overflow: auto;
   }
   .lecture__test_btn{
     align-self: start;

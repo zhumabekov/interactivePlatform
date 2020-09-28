@@ -1,22 +1,14 @@
 <template>
   <section>
     <div class="wrapper" v-if="loaded">
-      <router-link :to="'/lectureblock/' + lection.id" class="inform_block" v-for="(lection, index) of lections" :key="index">
-        <div class="inform_block__img" :style="{'background-image': `url(http://176.119.159.61/api/FileItems/DownloadFile?FileItemId=${lection.lesson.image.id})`}"></div>
-        <div class="inform_block__titile">{{lection.lesson.name}}</div>
+      <router-link :to="(lection.lesson.type === 3) ? '/infoblock/'  + lection.id : (lection.lesson.type === 2) ? '/infocart/'  + lection.id : '/lectureblock/' + lection.id" class="inform_block" v-for="(lection, index) of lections" :key="index">
+        <div class="inform_block__img" :style="{'background-image': `url(http://176.119.159.61/fileitems/${lection.lesson.image.id}${lection.lesson.image.extension})`}"></div>
+        <div class="inform_block__titile">{{index+1}} {{lection.lesson.name}}</div>
         <div class="inform_block__text"><span>{{lection.lesson.description}}</span></div>
         <div class="inform_block__progress_bar">
-          <div class="percentage" :class="{stopAnimation: (lection.passed*(100/lection.total) == 100)}" :style="{'width' : lection.passed*(100/lection.total) + '%'}">{{lection.passed*(100/lection.total)}} %</div>
+          <div class="percentage" :class="{stopAnimation: (lection.passed*(100/lection.total) == 100)}" :style="{'width' : lection.passed*(100/lection.total) + '%'}">{{(lection.passed*(100/lection.total)).toFixed()}} %</div>
         </div>
       </router-link>
-      <!-- <router-link to="/lectureblock/1" class="inform_block">
-        <div class="inform_block__img"></div>
-        <div class="inform_block__titile">Стигма и дискриминация </div>
-        <div class="inform_block__text"><span>Пройти обучение Стигма и дискриминация в Стигма и дискриминация Пройти обучение Стигма и дискриминация в Стигма и дискримина  в отношении людей, живущих с ВИЧ и представителей ключевых групп</span></div>
-        <div class="inform_block__progress_bar">
-          <div class="percentage" :style="{'width' : percentage + '%'}">{{percent}} %</div>
-        </div>
-      </router-link> -->
     </div>
     <div class="loadingFon" v-else>Loading...</div>
   </section>
@@ -28,29 +20,19 @@ export default {
   name: 'Section',
   data: () => {
     return {
-      // totalpercent: 12,
-      // percentage: 0,
       loaded: false
     }
   },
   computed: {
     ...mapGetters(['lections']),
-    // percent() {
-    //   return this.percentage.toFixed();
-    // }
   },
   methods: {
     ...mapActions(['getLections'])
   },
-  // created() {
-  //   var intval = setInterval(() => {
-  //     if(this.percentage < this.totalpercent)
-  //       this.percentage += .5;
-  //     else
-  //       clearInterval(intval);
-  //   }, 10);
-  // },
   mounted() {
+    if (!localStorage.getItem('userAttemptId')){
+      this.$router.push('/')
+    }
     this.getLections()
       .then((resp)=>{
         if(resp.data){

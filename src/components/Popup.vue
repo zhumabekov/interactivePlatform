@@ -66,7 +66,6 @@ export default {
     color: rgb(59, 59, 59);
     border: none;
     border: 2px solid #dfdfdf;
-    font-size: 1em;
     padding: .5em;
   }
   .popup_body .invalid{
@@ -108,6 +107,9 @@ export default {
     .popup{
       width: 200px;
       left: calc(50% - 117px);
+    }
+    .btn{
+      padding: 2px 5px;
     }
   }
 </style>

@@ -14,14 +14,15 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapMutations} from 'vuex'
 export default {
   name: 'Footer',
   data: () => {
     return {
       totalpercent: 0,
       percentage: 0,
-      statData: false
+      statData: false,
+      certificate: ""
     }
   },
   computed: {
@@ -34,11 +35,13 @@ export default {
       this.animationProgress();
     },
     '$route'(){
-      this.initVar()
+      this.initVar();
+      this.clearLectionData();
     }
   },
   methods: {
     ...mapActions(['getTotalStat', 'getCertificateData']),
+    ...mapMutations(['clearLectionData']),
     animationProgress() {
       var intval = setInterval(() => {
         if(this.percentage < this.totalpercent)
@@ -61,10 +64,17 @@ export default {
       })
     },
     getCertificate() {
-      this.getCertificateData()
+      this.getCertificateData(localStorage.getItem('userAttemptId'))
       .then((resp)=>{
         if(resp.data){
          console.log(resp.data);
+          let date = new Date().toISOString();
+          let blob = new Blob([resp.data], {type: 'application/pdf'});
+          let downloadUrl = URL.createObjectURL(blob);
+          let link = document.createElement('a');
+          link.href = downloadUrl;
+          link.download = date + '_sertificate.pdf';
+          link.click();
         }
       })
       .catch((error)=>{

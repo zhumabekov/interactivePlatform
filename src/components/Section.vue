@@ -37,7 +37,7 @@
 <script>
 import Popup from './Popup'
 import {required, maxLength, numeric} from 'vuelidate/lib/validators'
-import {mapActions} from 'vuex'
+import {mapActions,mapMutations} from 'vuex'
 export default {
   name: 'Section',
   components: {
@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     ...mapActions(['enterPlatform']),
+    ...mapMutations(['clearState']),
     showPopup(formType) {
       if (formType == "login"){
         this.showLogin = true;
@@ -130,6 +131,9 @@ export default {
           }
         })
     }
+  },
+  mounted() {
+    this.clearState();
   }
 }
 </script>

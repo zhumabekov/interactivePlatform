@@ -2,9 +2,9 @@
   <div class="wrapper">
     <div class="title">
       <span>Вопрос</span>
-      <span>{{activeTestIndex+1}}/{{testCount}}</span>
+      <span>{{activeTestIndex+1}}/{{lectionData.total}}</span>
     </div>
-    <div class="test">
+    <div v-show="callback != 'Тест сдан!'" class="test">
       <div class="question">{{activeTest.text}}</div>
       <div class="answer">
         <div class="variant" v-for="(variant, index) in activeTest.options" :key="index">
@@ -12,8 +12,11 @@
           <label :for="variant.id">{{variant.text}}</label>
         </div>
       </div>
-      <div class="callback">{{callback}}</div>
+      <div class="callback" :class="{callback_animation: callback}">{{callback}}</div>
       <button class="check_btn" @click.prevent="checkingTest()">Проверить</button>
+    </div>
+    <div v-show="callback == 'Тест сдан!'" class="callback_text">
+      <img src="../assets/certificate.png"/>  Тест сдан!
     </div>
     <div class="loading-bar">
       <div class="percentage" :style="{'width' : percentage + '%'}">{{percent}} %</div>
@@ -39,9 +42,6 @@ export default {
     },
     activeTest() {
       return this.lectionData.lesson.questions[this.activeTestIndex]
-    },
-    testCount() {
-      return this.lectionData.total
     }
   },
   watch: {
@@ -52,33 +52,31 @@ export default {
   methods: {
     ...mapActions(['sendAnswerforChek']),
     checkingTest() {
-      if(this.selectedVariant === this.activeTest.correctOption.id){
-        if(this.activeTestIndex<this.testCount-1){
-          this.sendAnswer(this.selectedVariant);
-          this.callback = "";
-        }else if((this.activeTestIndex === this.testCount-1) && (this.totalpercent<100)){
-          this.sendAnswer(this.selectedVariant);
-          this.callback = "Тест успешно пройден!";
-        }
-      }else if(this.selectedVariant === ""){
-        this.callback = "Надо выбрать один из вариантов!";
-      }else{
-        this.callback = "Ответ не верен. Попробуйте заново!";
-      }
-    },
-    sendAnswer(answer) {
+      this.callback = "";
       let answerData = {
         lessonStatId: this.lectionData.id, 
-        optionId: answer
+        optionId: this.selectedVariant
       }
-      this.sendAnswerforChek(answerData)
+      if(this.selectedVariant !== ""){
+        this.sendAnswerforChek(answerData)
         .then((response)=>{
           if(response.data){
-            this.totalpercent += 100/this.testCount;
-            this.activeTestIndex++;
-            this.selectedVariant = "";
+            if(response.data.correct){
+              this.totalpercent = (100/response.data.total)*response.data.passed;
+              this.selectedVariant = "";
+              if(response.data.passed === response.data.total){
+                this.callback = "Тест сдан!";
+              }else{
+                this.activeTestIndex = response.data.passed;
+              }
+            }else{
+              this.callback = "Ответ не верен. Попробуйте заново!";
+            }
           }
         })
+      }else{
+        this.callback = "Надо выбрать один из вариантов!";
+      }
     },
     animationProgress() {
       var intval = setInterval(() => {
@@ -89,12 +87,9 @@ export default {
       }, 10);
     }
   },
-  mounted() {
-    
-  },
   created() {
-    this.totalpercent = this.lectionData.passed*100/this.lectionData.total;
-    this.activeTestIndex = (this.lectionData.passed === this.lectionData.passed) ? 0 : this.lectionData.passed-1;
+    this.totalpercent = (100/this.lectionData.total)*this.lectionData.passed;
+    this.activeTestIndex =  this.lectionData.passed;
     this.animationProgress();
   }
 }
@@ -122,6 +117,17 @@ export default {
   height: 50px;
   color: red;
 }
+.callback_animation{
+  animation: animationFrames linear 1s;
+  animation-iteration-count: 1;
+}
+.callback_text{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    color: #00a189;
+    font-size: 1.3em;
+  }
 .check_btn{
   align-self: end;
   background-color: #00a189;
@@ -165,6 +171,43 @@ export default {
   0% { background-position: 0 0; }
   100% { background-position: 60px 0; }
 }
+
+@keyframes animationFrames{
+  0% {
+    transform:  translate(0px,0px)  ;
+  }
+  10% {
+    transform:  translate(-10px,0px)  ;
+  }
+  20% {
+    transform:  translate(10px,0px)  ;
+  }
+  30% {
+    transform:  translate(-10px,0px)  ;
+  }
+  40% {
+    transform:  translate(10px,0px)  ;
+  }
+  50% {
+    transform:  translate(-10px,0px)  ;
+  }
+  60% {
+    transform:  translate(10px,0px)  ;
+  }
+  70% {
+    transform:  translate(-10px,0px)  ;
+  }
+  80% {
+    transform:  translate(10px,0px)  ;
+  }
+  90% {
+    transform:  translate(-10px,0px)  ;
+  }
+  100% {
+    transform:  translate(0px,0px)  ;
+  }
+}
+
 .answer{
   display: grid;
   align-content: start;

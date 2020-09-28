@@ -9,6 +9,8 @@ const get_totalStat_url = "http://176.119.159.61/api/Attempts/GetStat?AttemptId=
 const get_lecData_url = "http://176.119.159.61/api/Lessons/GetLessonMaterials?LessonStatId=";
 const check_answer_url = "http://176.119.159.61/api/Quiz/Answer";
 const get_certificate_url = "http://176.119.159.61/api/Attempts/Complete";
+const check_familiarize_url = "http://176.119.159.61/api/Quiz/Familiarize";
+const check_flipCard_url = "http://176.119.159.61/api/Quiz/FlipCard";
 
 export default new Vuex.Store({
   state: {
@@ -38,7 +40,8 @@ export default new Vuex.Store({
       state.lections = [];
       state.lectionData = {};
       state.certificate = {};
-    }
+    },
+    clearLectionData: (state) => state.lectionData = {}
   },
   actions: {
     async enterPlatform( { commit }, userInfo) {
@@ -52,7 +55,18 @@ export default new Vuex.Store({
           return error;
         })
     },
-    async getLections( { commit }) {
+    async getPersonId( { commit }, userInfo) {
+      return await axios.post(user_post_url, userInfo)
+        .then((response)=>{
+          commit('setAAData', response.data);
+          return response;
+        })
+        .catch((error)=>{
+          console.log(error);
+          return error;
+        })
+    },
+    async getLections({ commit }) {
       let userAttemptId = localStorage.getItem('userAttemptId')
       return await axios.get(`${get_lection_url}${userAttemptId}`)
         .then((response)=>{
@@ -98,9 +112,30 @@ export default new Vuex.Store({
           return error;
         })
     },
-    async getCertificateData( { commit }) {
-      let userAttemptId = localStorage.getItem('userAttemptId');
-      return await axios.post(get_certificate_url, {"attemptId": userAttemptId})
+    async sendFamiliarize( { commit }, answerData) {
+      return await axios.post(check_familiarize_url, answerData)
+        .then((response)=>{
+          commit('setAAData', response.data);
+          return response;
+        })
+        .catch((error)=>{
+          console.log(error);
+          return error;
+        })
+    },
+    async sendFlipCard( { commit }, answerData) {
+      return await axios.post(check_flipCard_url, answerData)
+        .then((response)=>{
+          commit('setAAData', response.data);
+          return response;
+        })
+        .catch((error)=>{
+          console.log(error);
+          return error;
+        })
+    },
+    async getCertificateData({ commit }, userAttemptId) {
+      return await axios.post(get_certificate_url, {"attemptId": userAttemptId}, {responseType: 'arraybuffer'})
         .then((response)=>{
           commit('setCertificate', response.data);
           return response;
@@ -112,7 +147,6 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    // carts: state => state.carts,
     userSigned(state){
       return (("attemptId" in state.user) || (localStorage.getItem('userAttemptId'))) ? true : false;
     },

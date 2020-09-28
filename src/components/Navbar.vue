@@ -6,7 +6,7 @@
         <span @click="showInputIINForm = true" v-if="!signedIn" class="result_btn"><font-awesome-icon class="icon" icon="certificate"/>Сертификат</span>
         <span v-else @click="logOut()" class="result_btn"><font-awesome-icon class="icon" icon="sign-out-alt"/>Выйти</span>
         <!-- <span v-else class="result_form"><input type="text" placeholder="ИИН"></span> -->
-        <Popup v-if="showInputIINForm" @closePopup="closePopup" @login="logIn" popapTitle="Получить сертификат">
+        <Popup v-if="showInputIINForm" @closePopup="closePopup" @login="logIn" popapTitle="Получить">
           <input type="text" placeholder="ИИН" v-model.trim="iin" :class="{invalid: ($v.iin.$dirty && !$v.iin.required) || ($v.iin.$dirty && !$v.iin.numeric)}">
           <small v-if="$v.iin.$dirty && !$v.iin.required">Введите ИИН!</small>
           <small v-if="$v.iin.$dirty && !$v.iin.numeric">ИИН некорректен!</small>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations(['clearState']),
-    ...mapActions(['enterPlatform', 'getCertificateData']),
+    ...mapActions(['getPersonId', 'getCertificateData']),
     closePopup() {
       this.showInputIINForm = false;
       this.certificate = true;
@@ -62,11 +62,24 @@ export default {
       const userInfo = {
         iin: this.iin
       }
-      this.enterPlatform(userInfo)
+      this.getPersonId(userInfo)
         .then((response)=>{
           if(response.data){
-            this.showInputIINForm = false;
-            this.getCertificateData()
+            this.getCertificateData(response.data.attemptId)
+              .then((resp)=>{
+                if(resp.data){
+                  let date = new Date().toISOString();
+                  let blob = new Blob([resp.data], {type: 'application/pdf'});
+                  let downloadUrl = URL.createObjectURL(blob);
+                  let link = document.createElement('a');
+                  link.href = downloadUrl;
+                  link.download = date + '_sertificate.pdf';
+                  link.click();
+                }else{
+                  this.certificate = false;
+                }
+               this.showInputIINForm = false;
+              })
           }else{
             this.showInputIINForm = false;
             this.certificate = false;
@@ -80,6 +93,7 @@ export default {
     },
     logOut() {
       this.clearState();
+      window.location.reload(true)
       this.$router.push('/');
     }
   }
