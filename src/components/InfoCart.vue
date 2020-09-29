@@ -149,9 +149,8 @@ export default {
     align-items: center;
     justify-items: center;
     min-height: 40vh;
-    min-width: 40vw;
+    min-width: 50vw;
     text-align: center;
-    padding: 15px;
     transition: .5s;
     /* box-shadow: 0px 0px 13px -1px rgba(148,145,148,1);
     background-color: #fff;
@@ -274,7 +273,12 @@ export default {
   @media screen and (max-width:1000px){
     .inform_cart__content{
       min-height: 30vh;
-      min-width: 60vw;
+      min-width: 70vw;
+    }
+  }
+  @media screen and (max-width:700px){
+    .inform_cart__content{
+      font-size: .7em;
     }
   }
 </style>

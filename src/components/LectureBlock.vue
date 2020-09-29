@@ -155,7 +155,7 @@ export default {
   .activeTest{
     grid-template-columns: 1fr 1fr;
   }
-  @media screen and (max-width:1000px){
+  @media screen and (max-width:1400px){
     .lecture_block{
       grid-template-columns: 1fr;
       grid-row-gap: 1em;
@@ -167,10 +167,19 @@ export default {
     .lecture__test_btn, .lecture_close_btn{
       width: 100%;
     }
+    .lecture_close_btn{
+      margin-bottom: .5em;
+    }
   }
   @media screen and (max-width:500px){
     .lecture__content .lecture__title{
-      grid-template-columns: 20% 80%;
+      grid-template-columns: 22% 78%;
+    }
+    .lecture__title{
+      font-size: .8em;
+    }
+    .lecture_close_btn{
+      padding: 10px 20px;
     }
   }
 </style>

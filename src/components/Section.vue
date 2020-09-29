@@ -2,7 +2,7 @@
   <section>
     <div class="wrapper">
       <article class="inform_block">
-        <div class="inform_block__text">Стигма и дискриминация в отношении людей, живущих с ВИЧ и представителей ключевых групп</div>
+        <div class="inform_block__text">Формирование толерантного отношения среди медицинских работников к людям, живущим с ВИЧ,  и представителей групп высокого риска</div>
         <div class="inform_block__btn">
           <button class="btn__begin" @click.prevent="showPopup('login')">Начать обучение</button>
           <button class="btn__continue" @click.prevent="showPopup('continue')">Продолжить обучение</button>
@@ -157,12 +157,9 @@ export default {
   }
   .inform_block__text{
     font-size: 2.2em;
-    width: 70%;
+    width: 75%;
     font-weight: bold;
     color: #1e3144;
-  }
-  .btn__continue{
-    margin-left: .5em;
   }
   .btn__begin{
     background-color: #1769aa;
@@ -185,6 +182,7 @@ export default {
     border-radius: 3px;
     color: #fff;
     border: 2px solid #ff9100;
+    margin-left: .5em;
   }
   .btn__continue:hover{
     background-color: #f8f8f8;
@@ -231,6 +229,10 @@ export default {
     }
     .inform_block__btn{
       display: grid;
+    }
+    .btn__continue{
+      padding: .8em 1.5em;
+      margin-bottom: .5em;
     }
   }
 </style>

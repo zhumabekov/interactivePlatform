@@ -154,12 +154,16 @@ export default {
   }
   @media screen and (max-width:500px){
     .btn_certificate{
-      background-color: #00a189;
-      font-size: .9em;
       padding: .2em 1em;
-      border-radius: 2px;
-      color: #fff;
-      border: 2px solid #00a189;
+    }
+  }
+  @media screen and (max-width:400px){
+    .bottom_text{
+      font-size: .8em;
+    }
+    .btn_certificate{
+      font-size: .8em;
+      padding: .2em .5em;
     }
   }
 </style>
