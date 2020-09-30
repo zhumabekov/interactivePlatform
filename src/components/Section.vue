@@ -144,11 +144,17 @@ export default {
   }
   .wrapper{
     width: 90%;
-    display: grid;
-    margin: 0 auto;
     min-height: calc(100vh - 100px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
+    /* display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr; */
+  }
+  .wrapper article{
+    width: 50%;
   }
   .inform_block{
     display: grid;
@@ -217,6 +223,9 @@ export default {
   @media screen and (max-width:700px){
     .wrapper{
       grid-template-columns: 1fr;
+    }
+    .wrapper article{
+      width: 100%;
     }
     .img_block{
       display: none;

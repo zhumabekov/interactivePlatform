@@ -8,7 +8,7 @@
         <button class="btn_certificate" @click="getCertificate()">Получть сертификат</button>
       </div>
       <div v-else></div>
-      <div class="bottom_text">Capla Asia, USAID, 2020</div>
+      <div class="bottom_text">CAAPL, 2020</div>
     </div>
   </footer>
 </template>
@@ -101,10 +101,9 @@ export default {
   .wrapper{
     width: 90%;
     height: 50px;
-    display: grid;
-    justify-self: center;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
   }
   .bottom_text{
     color: #fff;
@@ -112,7 +111,7 @@ export default {
   }
   .loading-bar {
     position: relative;
-    width: 90%;
+    width: 40%;
     height: 30px;
     border-radius: 15px;
     overflow: hidden;
