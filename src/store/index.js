@@ -3,23 +3,18 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-const user_post_url = "http://176.119.159.61/api/Attempts/Go";
-const get_lection_url =
-  "http://176.119.159.61/api/Lessons/GetLessonStats?AttemptId=";
-const get_totalStat_url =
-  "http://176.119.159.61/api/Attempts/GetStat?AttemptId=";
-const get_lecData_url =
-  "http://176.119.159.61/api/Lessons/GetLessonMaterials?LessonStatId=";
-const check_answer_url = "http://176.119.159.61/api/Quiz/Answer";
-const get_certificate_url = "http://176.119.159.61/api/Attempts/Complete";
-const check_familiarize_url = "http://176.119.159.61/api/Quiz/Familiarize";
-const check_flipCard_url = "http://176.119.159.61/api/Quiz/FlipCard";
+const user_post_url = "/api/Attempts/Go";
+const get_lection_url = "/api/Lessons/GetLessonStats?AttemptId=";
+const get_totalStat_url = "/api/Attempts/GetStat?AttemptId=";
+const get_lecData_url = "/api/Lessons/GetLessonMaterials?LessonStatId=";
+const check_answer_url = "/api/Quiz/Answer";
+const get_certificate_url = "/api/Attempts/Complete";
+const check_familiarize_url = "/api/Quiz/Familiarize";
+const check_flipCard_url = "/api/Quiz/FlipCard";
 
 export default new Vuex.Store({
   state: {
     user: {},
-    // carts: [],
-    // tests: [],
     lections: [],
     lectionData: {},
     certificate: {},
