@@ -8,7 +8,7 @@
       </div>
       <div v-else-if="statData">
         <button class="btn_certificate" @click="getCertificate()">
-          Получть сертификат
+          {{ certificateStatus }}
         </button>
       </div>
       <div v-else></div>
@@ -27,6 +27,7 @@ export default {
       percentage: 0,
       statData: false,
       certificate: "",
+      certificateStatus: "Получить сертификат",
     };
   },
   computed: {
@@ -65,6 +66,7 @@ export default {
       });
     },
     getCertificate() {
+      this.certificateStatus = "Загружаем сертификат..";
       this.getCertificateData(localStorage.getItem("userAttemptId"))
         .then((resp) => {
           if (resp.data) {
@@ -74,11 +76,13 @@ export default {
             let downloadUrl = URL.createObjectURL(blob);
             let link = document.createElement("a");
             link.href = downloadUrl;
-            link.download = date + "_sertificate.pdf";
+            link.download = date + "_сertificate.pdf";
             link.click();
+            this.certificateStatus = "Получить сертификат";
           }
         })
         .catch((error) => {
+          this.certificateStatus = "Не удалось загрузить сертификат";
           console.log(error);
         });
     },
